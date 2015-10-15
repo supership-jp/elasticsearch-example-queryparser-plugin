@@ -1,4 +1,4 @@
-elasticsearch-so-queryparser-plugin
+Elasticsearch Example queryparser plugin
 ===============================
 
 ## Overview
