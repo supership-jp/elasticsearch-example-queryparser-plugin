@@ -1,4 +1,14 @@
 elasticsearch-so-queryparser-plugin
 ===============================
 
-実験用
+## Overview
+
+Example Query String QueryParser Plugin for Elasticsearch.
+
+## Version
+
+| Version   | Elasticsearch |
+|:---------:|:-------------:|
+| master    | 2.0.X         |
+
+
