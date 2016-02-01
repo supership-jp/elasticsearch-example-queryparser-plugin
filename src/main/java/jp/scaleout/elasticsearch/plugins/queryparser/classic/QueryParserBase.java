@@ -115,7 +115,7 @@ public abstract class QueryParserBase extends QueryBuilder implements CommonQuer
     try {
       // TopLevelQuery is a Query followed by the end-of-input (EOF)
       Query res = TopLevelQuery(field);
-      return res!=null ? res : newBooleanQuery(false);
+      return res!=null ? res : newBooleanQuery(false).build();
     }
     catch (ParseException | TokenMgrError tme) {
       // rethrow to include the original query:
@@ -606,7 +606,7 @@ public abstract class QueryParserBase extends QueryBuilder implements CommonQuer
 
       if (!source.incrementToken())
         throw new IllegalArgumentException("analyzer returned no terms for multiTerm term: " + part);
-      termAtt.fillBytesRef();
+      //termAtt.fillBytesRef();
       if (source.incrementToken())
         throw new IllegalArgumentException("analyzer returned too many terms for multiTerm term: " + part);
       source.end();
@@ -703,7 +703,7 @@ public abstract class QueryParserBase extends QueryBuilder implements CommonQuer
     if (clauses.size()==0) {
       return null; // all clause words were filtered away by the analyzer.
     }
-    BooleanQuery query = newBooleanQuery(disableCoord);
+    BooleanQuery query = newBooleanQuery(disableCoord).build();
     for(final BooleanClause clause: clauses) {
       query.add(clause);
     }

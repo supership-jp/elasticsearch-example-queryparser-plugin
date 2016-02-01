@@ -43,6 +43,9 @@ import org.joda.time.DateTimeZone;
 import java.io.IOException;
 import java.util.Locale;
 
+import org.elasticsearch.common.logging.ESLogger;
+import org.elasticsearch.common.logging.Loggers;
+
 import static org.elasticsearch.common.lucene.search.Queries.fixNegativeQueryIfNeeded;
 
 /**
@@ -55,9 +58,13 @@ public class SoQueryParser implements QueryParser {
 
     private final boolean defaultAnalyzeWildcard;
     private final boolean defaultAllowLeadingWildcard;
-
+    
+    private ESLogger logger = null;
+    
     @Inject
     public SoQueryParser(Settings settings) {
+        logger = Loggers.getLogger(SoQueryParser.class, settings);
+
         this.defaultAnalyzeWildcard = settings.getAsBoolean("indices.query.query_string.analyze_wildcard", QueryParserSettings.DEFAULT_ANALYZE_WILDCARD);
         this.defaultAllowLeadingWildcard = settings.getAsBoolean("indices.query.query_string.allowLeadingWildcard", QueryParserSettings.DEFAULT_ALLOW_LEADING_WILDCARD);
     }
@@ -223,7 +230,7 @@ public class SoQueryParser implements QueryParser {
             qpSettings.queryString(org.apache.lucene.queryparser.classic.QueryParser.escape(qpSettings.queryString()));
         }
 
-        qpSettings.queryTypes(parseContext.queryTypes());
+        //qpSettings.queryTypes(parseContext.queryTypes());
 
         MapperQueryParser queryParser = parseContext.queryParser(qpSettings);
 
@@ -242,6 +249,7 @@ public class SoQueryParser implements QueryParser {
             if (queryName != null) {
                 parseContext.addNamedQuery(queryName, query);
             }
+            logger.debug("query: " + query.toString());
             return query;
         } catch (org.apache.lucene.queryparser.classic.ParseException e) {
             throw new QueryParsingException(parseContext, "Failed to parse query [" + qpSettings.queryString() + "]", e);
