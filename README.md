@@ -9,6 +9,6 @@ Example Query String QueryParser Plugin for Elasticsearch.
 
 | Version   | Elasticsearch |
 |:---------:|:-------------:|
-| master    | 2.0.X         |
+| master    | 2.1.X         |
 
 
